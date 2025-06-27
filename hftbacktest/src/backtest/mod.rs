@@ -12,7 +12,7 @@ use thiserror::Error;
 
 pub use crate::backtest::{
     models::L3QueueModel,
-    proc::{L3Local, L3NoPartialFillExchange},
+    proc::{L3Local, L3NoPartialFillExchange, L3PartialFillExchange},
 };
 use crate::{
     backtest::{
