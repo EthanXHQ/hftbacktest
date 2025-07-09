@@ -54,6 +54,9 @@ where
         println!("时间: {}", hbt.current_timestamp());
         println!("----------------------------");
 
+        println!("best ask {:?}", depth.best_ask());
+        println!("best bid {:?}", depth.best_bid());
+
         // 收集卖盘数据（卖三、卖二、卖一）
         let mut asks = Vec::new();
         let mut i = 0;
@@ -102,6 +105,7 @@ where
             }
         }
         println!("============================\n");
+        // println!("{:?} @ 343.80", depth.bid_qty_at_tick(34380 as i64));
 
         // 输出到开盘
         // 9:15:00
@@ -117,16 +121,16 @@ where
         // 9:30:00
         // if hbt.current_timestamp() >= 1750901400000000000 {
         //     elapse_time = 10_000_000;
-        //     println!("{:?}",depth.ask_qty_at_tick(34411));
+        //     // println!("{:?}",depth.ask_qty_at_tick(34411));
         // }
-        // // if hbt.current_timestamp()== 1750901399000000000{
-        // //     println!("{:?}",depth.ask_qty_at_tick(34510));
-        // // }
-        // // if hbt.current_timestamp()== 1750901400000000000{
-        // //     println!("{:?}",depth.ask_qty_at_tick(34510));
-        // // }
-        // if hbt.current_timestamp() > 1750901400030000000 {
-        //     println!("{:?}",depth.ask_qty_at_tick(34411));
+        // // // if hbt.current_timestamp()== 1750901399000000000{
+        // // //     println!("{:?}",depth.ask_qty_at_tick(34510));
+        // // // }
+        // // // if hbt.current_timestamp()== 1750901400000000000{
+        // // //     println!("{:?}",depth.ask_qty_at_tick(34510));
+        // // // }
+        // if hbt.current_timestamp() > 1750901400700000000 {
+        //     // println!("{:?}",depth.ask_qty_at_tick(34411));
         //     break;
         // }
         // println!("{:?}", depth.ask_qty_at_tick(34411 as i64));
@@ -136,9 +140,10 @@ where
         // }
 
         // 11:30:00
-        // if hbt.current_timestamp() > 1750908602000000000 {
-        //     break;
-        // }
+        if hbt.current_timestamp() > 1750908602000000000 {
+            
+            break;
+        }
 
         // 14:56:57
         // if hbt.current_timestamp() > 1750921017000000000 {

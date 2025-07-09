@@ -409,7 +409,7 @@ where
                 }
 
                 // println!("best ask {:?}", self.depth.best_ask());
-                // println!("best bid {:?}", self.depth.best_bid());
+                // println!("best bid {:?}", self.depth.best_bid());                
             }
             // Updates the order latency only if it has a valid exchange timestamp. When the
             // order is rejected before it reaches the matching engine, it has no exchange

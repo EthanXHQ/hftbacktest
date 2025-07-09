@@ -54,40 +54,102 @@ fn depth_above(depth: &[f64], start: i64, end: i64, roi_lb: i64, roi_ub: i64) ->
 }
 
 #[inline(always)]
-fn depth_below_with_qty(depth: &[f64], start: i64, end: i64, roi_lb: i64, roi_ub: i64, qty: f64) -> i64 {
-    let start = (start.min(roi_ub) - roi_lb) as usize;
-    let end = (end.max(roi_lb) - roi_lb) as usize;
-    
+fn depth_below_with_qty(
+    depth: &[f64],
+    price_tick: i64,
+    best_bid_tick: i64,
+    roi_lb: i64,
+    roi_ub: i64,
+    qty: f64,
+) -> i64 {
+    let start_idx = (best_bid_tick.min(roi_ub) - roi_lb) as usize;
+    let end_idx = (price_tick.max(roi_lb) - roi_lb) as usize;
+
     let mut remaining_qty = qty;
-    
-    for t in (end..start).rev() {
-        let available_qty = unsafe { *depth.get_unchecked(t) };
+
+    for idx in (end_idx..=start_idx).rev() {
+        let available_qty = unsafe { *depth.get_unchecked(idx) };
+        let current_tick = idx as i64 + roi_lb;
+
         if available_qty > 0f64 {
             remaining_qty -= available_qty;
+
             if remaining_qty <= 0f64 {
-                return t as i64 + roi_lb;
+                // 如果在 price_tick 处消耗完了
+                if current_tick == price_tick {
+                    // 返回下一个有数量的 bid tick
+                    for next_idx in (0..idx+1).rev() {
+                        if unsafe { *depth.get_unchecked(next_idx) } > 0f64 {
+                            return next_idx as i64 + roi_lb;
+                        }
+                    }
+                    return INVALID_MIN;
+                } else {
+                    // 在其他价位消耗完，返回当前价位
+                    return current_tick;
+                }
             }
         }
     }
+    // 遍历完所有价格，qty 还有剩余
+    // 返回小于 price_tick 的最高 bid tick
+    for idx in (0..end_idx).rev() {
+        if unsafe { *depth.get_unchecked(idx) } > 0f64 {
+            return idx as i64 + roi_lb;
+        }
+    }
+
     INVALID_MIN
 }
 
 #[inline(always)]
-fn depth_above_with_qty(depth: &[f64], start: i64, end: i64, roi_lb: i64, roi_ub: i64, qty: f64) -> i64 {
-    let start = (start.max(roi_lb) - roi_lb) as usize;
-    let end = (end.min(roi_ub) - roi_lb) as usize;
-    
+fn depth_above_with_qty(
+    depth: &[f64],
+    price_tick: i64,    // 买单价格（目标价格）
+    best_ask_tick: i64, // 当前最佳卖价（起始价格）
+    roi_lb: i64,
+    roi_ub: i64,
+    qty: f64,
+) -> i64 {
+    let start_idx = (price_tick.max(roi_lb) - roi_lb) as usize;
+    let end_idx = (best_ask_tick.min(roi_ub) - roi_lb) as usize;
+
     let mut remaining_qty = qty;
-    
-    for t in (start + 1)..(end + 1) {
-        let available_qty = unsafe { *depth.get_unchecked(t) };
+
+    // 从 best_ask_tick 向下遍历到 price_tick（升序）
+    for idx in start_idx..=end_idx {
+        let available_qty = unsafe { *depth.get_unchecked(idx) };
+        let current_tick = idx as i64 + roi_lb;
+
         if available_qty > 0f64 {
             remaining_qty -= available_qty;
+
             if remaining_qty <= 0f64 {
-                return t as i64 + roi_lb;
+                // 如果在 price_tick 处消耗完了
+                if current_tick == price_tick {
+                    // 返回下一个有数量的 ask tick
+                    for next_idx in (idx)..depth.len() {
+                        if unsafe { *depth.get_unchecked(next_idx) } > 0f64 {
+                            return next_idx as i64 + roi_lb;
+                        }
+                    }
+                    return INVALID_MAX;
+                } else {
+                    // 在其他价位消耗完，返回当前价位
+                    return current_tick;
+                }
             }
         }
     }
+
+    // 遍历完所有价格，qty 还有剩余
+    // 返回大于 price_tick 的最低 ask tick
+    for idx in (end_idx + 1)..depth.len() {
+        if unsafe { *depth.get_unchecked(idx) } > 0f64 {
+            return idx as i64 + roi_lb;
+        }
+    }
+
     INVALID_MAX
 }
 
@@ -518,17 +580,21 @@ impl L3MarketDepth for ROIVectorMarketDepth {
         })?;
         let prev_best_tick = self.best_bid_tick;
         if price_tick > self.best_bid_tick {
-            self.best_bid_tick = price_tick;
-            if !self.allow_price_cross && self.best_bid_tick >= self.best_ask_tick {
+            if !self.allow_price_cross && price_tick >= self.best_ask_tick {
                 //// println!("add_buy_order crossing fill!");
                 self.best_ask_tick = depth_above_with_qty(
                     &self.ask_depth,
-                    self.best_bid_tick,
-                    self.high_ask_tick,
+                    price_tick,
+                    self.best_ask_tick,
                     self.roi_lb,
                     self.roi_ub,
                     qty,
                 );
+                if self.best_ask_tick > price_tick {
+                    self.best_bid_tick = price_tick;
+                }
+            } else {
+                self.best_bid_tick = price_tick;
             }
         }
         self.low_bid_tick = self.low_bid_tick.min(price_tick);
@@ -552,17 +618,21 @@ impl L3MarketDepth for ROIVectorMarketDepth {
         })?;
         let prev_best_tick = self.best_ask_tick;
         if price_tick < self.best_ask_tick {
-            self.best_ask_tick = price_tick;
-            if !self.allow_price_cross && self.best_bid_tick >= self.best_ask_tick {
+            if !self.allow_price_cross && self.best_bid_tick >= price_tick {
                 // println!("add_sell_order crossing fill!");
                 self.best_bid_tick = depth_below_with_qty(
                     &self.bid_depth,
-                    self.best_ask_tick,
-                    self.low_bid_tick,
+                    price_tick,
+                    self.best_bid_tick,
                     self.roi_lb,
                     self.roi_ub,
                     qty,
                 );
+                if self.best_bid_tick < price_tick {
+                    self.best_ask_tick = price_tick;
+                }
+            } else {
+                self.best_ask_tick = price_tick;
             }
         }
         self.high_ask_tick = self.high_ask_tick.max(price_tick);
@@ -675,16 +745,20 @@ impl L3MarketDepth for ROIVectorMarketDepth {
                     *depth_qty += order.qty;
 
                     if price_tick > self.best_bid_tick {
-                        self.best_bid_tick = price_tick;
-                        if self.best_bid_tick >= self.best_ask_tick {
+                        if !self.allow_price_cross && price_tick >= self.best_ask_tick {
                             self.best_ask_tick = depth_above_with_qty(
                                 &self.ask_depth,
-                                self.best_bid_tick,
-                                self.high_ask_tick,
+                                price_tick,         // 买单价格
+                                self.best_ask_tick, // 当前最佳卖价
                                 self.roi_lb,
                                 self.roi_ub,
                                 qty,
                             );
+                            if self.best_ask_tick > price_tick {
+                                self.best_bid_tick = price_tick;
+                            }
+                        } else {
+                            self.best_bid_tick = price_tick;
                         }
                     }
                     self.low_bid_tick = self.low_bid_tick.min(price_tick);
@@ -734,16 +808,20 @@ impl L3MarketDepth for ROIVectorMarketDepth {
                     *depth_qty += order.qty;
 
                     if price_tick < self.best_ask_tick {
-                        self.best_ask_tick = price_tick;
-                        if self.best_bid_tick >= self.best_ask_tick {
+                        if !self.allow_price_cross && self.best_bid_tick >= price_tick {
                             self.best_bid_tick = depth_below_with_qty(
                                 &self.bid_depth,
-                                self.best_ask_tick,
-                                self.low_bid_tick,
+                                price_tick,         // 卖单价格
+                                self.best_bid_tick, // 当前最佳买价
                                 self.roi_lb,
                                 self.roi_ub,
                                 qty,
                             );
+                            if self.best_bid_tick < price_tick {
+                                self.best_ask_tick = price_tick;
+                            }
+                        } else {
+                            self.best_ask_tick = price_tick;
                         }
                     }
                     self.high_ask_tick = self.high_ask_tick.max(price_tick);
