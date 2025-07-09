@@ -25,6 +25,8 @@ pub struct ROIVectorMarketDepth {
     pub roi_ub: i64,
     pub roi_lb: i64,
     pub orders: HashMap<OrderId, L3Order>,
+
+    pub allow_price_cross: bool,
 }
 
 #[inline(always)]
@@ -46,6 +48,44 @@ fn depth_above(depth: &[f64], start: i64, end: i64, roi_lb: i64, roi_ub: i64) ->
     for t in (start + 1)..(end + 1) {
         if unsafe { *depth.get_unchecked(t) } > 0f64 {
             return t as i64 + roi_lb;
+        }
+    }
+    INVALID_MAX
+}
+
+#[inline(always)]
+fn depth_below_with_qty(depth: &[f64], start: i64, end: i64, roi_lb: i64, roi_ub: i64, qty: f64) -> i64 {
+    let start = (start.min(roi_ub) - roi_lb) as usize;
+    let end = (end.max(roi_lb) - roi_lb) as usize;
+    
+    let mut remaining_qty = qty;
+    
+    for t in (end..start).rev() {
+        let available_qty = unsafe { *depth.get_unchecked(t) };
+        if available_qty > 0f64 {
+            remaining_qty -= available_qty;
+            if remaining_qty <= 0f64 {
+                return t as i64 + roi_lb;
+            }
+        }
+    }
+    INVALID_MIN
+}
+
+#[inline(always)]
+fn depth_above_with_qty(depth: &[f64], start: i64, end: i64, roi_lb: i64, roi_ub: i64, qty: f64) -> i64 {
+    let start = (start.max(roi_lb) - roi_lb) as usize;
+    let end = (end.min(roi_ub) - roi_lb) as usize;
+    
+    let mut remaining_qty = qty;
+    
+    for t in (start + 1)..(end + 1) {
+        let available_qty = unsafe { *depth.get_unchecked(t) };
+        if available_qty > 0f64 {
+            remaining_qty -= available_qty;
+            if remaining_qty <= 0f64 {
+                return t as i64 + roi_lb;
+            }
         }
     }
     INVALID_MAX
@@ -78,7 +118,12 @@ impl ROIVectorMarketDepth {
             roi_lb,
             roi_ub,
             orders: HashMap::new(),
+            allow_price_cross: true, // 默认允许价格交叉（集合竞价模式）
         }
+    }
+
+    pub fn set_allow_price_cross(&mut self, allow: bool) {
+        self.allow_price_cross = allow;
     }
 
     fn add(&mut self, order: L3Order) -> Result<(), BacktestError> {
@@ -474,13 +519,15 @@ impl L3MarketDepth for ROIVectorMarketDepth {
         let prev_best_tick = self.best_bid_tick;
         if price_tick > self.best_bid_tick {
             self.best_bid_tick = price_tick;
-            if self.best_bid_tick >= self.best_ask_tick {
-                self.best_ask_tick = depth_above(
+            if !self.allow_price_cross && self.best_bid_tick >= self.best_ask_tick {
+                //// println!("add_buy_order crossing fill!");
+                self.best_ask_tick = depth_above_with_qty(
                     &self.ask_depth,
                     self.best_bid_tick,
                     self.high_ask_tick,
                     self.roi_lb,
                     self.roi_ub,
+                    qty,
                 );
             }
         }
@@ -506,13 +553,15 @@ impl L3MarketDepth for ROIVectorMarketDepth {
         let prev_best_tick = self.best_ask_tick;
         if price_tick < self.best_ask_tick {
             self.best_ask_tick = price_tick;
-            if self.best_bid_tick >= self.best_ask_tick {
-                self.best_bid_tick = depth_below(
+            if !self.allow_price_cross && self.best_bid_tick >= self.best_ask_tick {
+                // println!("add_sell_order crossing fill!");
+                self.best_bid_tick = depth_below_with_qty(
                     &self.bid_depth,
                     self.best_ask_tick,
                     self.low_bid_tick,
                     self.roi_lb,
                     self.roi_ub,
+                    qty,
                 );
             }
         }
@@ -628,12 +677,13 @@ impl L3MarketDepth for ROIVectorMarketDepth {
                     if price_tick > self.best_bid_tick {
                         self.best_bid_tick = price_tick;
                         if self.best_bid_tick >= self.best_ask_tick {
-                            self.best_ask_tick = depth_above(
+                            self.best_ask_tick = depth_above_with_qty(
                                 &self.ask_depth,
                                 self.best_bid_tick,
                                 self.high_ask_tick,
                                 self.roi_lb,
                                 self.roi_ub,
+                                qty,
                             );
                         }
                     }
@@ -686,12 +736,13 @@ impl L3MarketDepth for ROIVectorMarketDepth {
                     if price_tick < self.best_ask_tick {
                         self.best_ask_tick = price_tick;
                         if self.best_bid_tick >= self.best_ask_tick {
-                            self.best_bid_tick = depth_below(
+                            self.best_bid_tick = depth_below_with_qty(
                                 &self.bid_depth,
                                 self.best_ask_tick,
                                 self.low_bid_tick,
                                 self.roi_lb,
                                 self.roi_ub,
+                                qty,
                             );
                         }
                     }
@@ -748,6 +799,10 @@ impl L3MarketDepth for ROIVectorMarketDepth {
 
     fn orders(&self) -> &HashMap<OrderId, L3Order> {
         &self.orders
+    }
+
+    fn set_allow_price_cross(&mut self, allow: bool) {
+        self.allow_price_cross = allow;
     }
 }
 

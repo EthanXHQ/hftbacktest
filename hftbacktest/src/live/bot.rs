@@ -395,6 +395,7 @@ where
             // Invalid information
             q: Box::new(()),
             maker: false,
+            is_auction: false,
         };
         let order_id = order.order_id;
         instrument.orders.insert(order_id, order.clone());

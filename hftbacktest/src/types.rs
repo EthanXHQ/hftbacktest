@@ -188,6 +188,8 @@ pub const EXCH_EVENT: u64 = 1 << 31;
 /// Indicates that it is a valid event to be handled by the local processor at the local timestamp.
 pub const LOCAL_EVENT: u64 = 1 << 30;
 
+pub const AUCTION_UPDATE_EVENT: u64 = 1 << 27;
+
 /// Represents a combination of [`DEPTH_CLEAR_EVENT`], and [`LOCAL_EVENT`].
 pub const LOCAL_DEPTH_CLEAR_EVENT: u64 = DEPTH_CLEAR_EVENT | LOCAL_EVENT;
 
@@ -522,6 +524,7 @@ pub struct Order {
     pub status: Status,
     pub side: Side,
     pub time_in_force: TimeInForce,
+    pub is_auction: bool,
 }
 
 impl Order {
@@ -552,6 +555,7 @@ impl Order {
             q: Box::new(()),
             maker: false,
             order_type,
+            is_auction: false,
         }
     }
 
@@ -618,6 +622,7 @@ impl Order {
         self.q = order.q.clone();
         self.maker = order.maker;
         self.order_type = order.order_type;
+        self.is_auction = order.is_auction;
     }
 }
 
@@ -639,6 +644,7 @@ impl Debug for Order {
             .field("order_id", &self.order_id)
             .field("maker", &self.maker)
             .field("order_type", &self.order_type)
+            .field("is_auction", &self.is_auction)
             .finish()
     }
 }
@@ -663,6 +669,7 @@ impl<Context> Decode<Context> for Order {
             status: Decode::decode(decoder)?,
             side: Decode::decode(decoder)?,
             time_in_force: Decode::decode(decoder)?,
+            is_auction: Decode::decode(decoder)?,
         })
     }
 }
@@ -687,6 +694,7 @@ impl<'de, Context> BorrowDecode<'de, Context> for Order {
             status: Decode::decode(decoder)?,
             side: Decode::decode(decoder)?,
             time_in_force: Decode::decode(decoder)?,
+            is_auction: Decode::decode(decoder)?,
         })
     }
 }
@@ -709,6 +717,7 @@ impl Encode for Order {
         self.status.encode(encoder)?;
         self.side.encode(encoder)?;
         self.time_in_force.encode(encoder)?;
+        self.is_auction.encode(encoder)?;
         Ok(())
     }
 }
@@ -992,6 +1001,7 @@ mod tests {
             LOCAL_BID_DEPTH_EVENT,
             LOCAL_BID_DEPTH_SNAPSHOT_EVENT,
             LOCAL_BUY_TRADE_EVENT,
+            AUCTION_UPDATE_EVENT,
         },
     };
 
@@ -1029,5 +1039,17 @@ mod tests {
         assert!(!event.is(LOCAL_BID_DEPTH_SNAPSHOT_EVENT));
         assert!(event.is(LOCAL_EVENT));
         assert!(event.is(BUY_EVENT));
+
+        let event = Event {
+            ev: LOCAL_EVENT | BUY_EVENT | 0xff,
+            exch_ts: 0,
+            local_ts: 0,
+            order_id: 0,
+            px: 0.0,
+            qty: 0.0,
+            ival: 0,
+            fval: 0.0,
+        };
+        assert!(!event.is(AUCTION_UPDATE_EVENT));
     }
 }

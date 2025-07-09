@@ -30,6 +30,7 @@ pub struct BTreeMarketDepth {
     pub best_bid_tick: i64,
     pub best_ask_tick: i64,
     pub orders: HashMap<OrderId, L3Order>,
+    pub allow_price_cross: bool,
 }
 
 impl BTreeMarketDepth {
@@ -44,6 +45,8 @@ impl BTreeMarketDepth {
             best_bid_tick: INVALID_MIN,
             best_ask_tick: INVALID_MAX,
             orders: Default::default(),
+            
+            allow_price_cross: true, // 默认允许价格交叉（集合竞价模式）
         }
     }
 
@@ -237,6 +240,10 @@ impl ApplySnapshot for BTreeMarketDepth {
 
 impl L3MarketDepth for BTreeMarketDepth {
     type Error = BacktestError;
+
+    fn set_allow_price_cross(&mut self, allow: bool) {
+        self.allow_price_cross = allow;
+    }
 
     fn add_buy_order(
         &mut self,

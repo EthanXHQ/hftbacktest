@@ -157,6 +157,9 @@ pub trait L3MarketDepth: MarketDepth {
 
     /// Returns the orders held in the order book.
     fn orders(&self) -> &HashMap<OrderId, L3Order>;
+
+    /// 设置是否允许价格交叉（用于集合竞价/连续交易切换）
+    fn set_allow_price_cross(&mut self, allow: bool);
 }
 
 /// Provides Level1-specific market depth functions.

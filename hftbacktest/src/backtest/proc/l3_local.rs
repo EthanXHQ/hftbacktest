@@ -1,5 +1,7 @@
 use std::collections::{HashMap, hash_map::Entry};
 
+use uuid::timestamp;
+
 use crate::{
     backtest::{
         BacktestError,
@@ -9,25 +11,13 @@ use crate::{
         proc::{LocalProcessor, Processor},
         state::State,
     },
-    depth::L3MarketDepth,
+    depth::{L3MarketDepth, L3Order},
     types::{
-        Event,
-        LOCAL_ASK_ADD_ORDER_EVENT,
-        LOCAL_ASK_DEPTH_CLEAR_EVENT,
-        LOCAL_BID_ADD_ORDER_EVENT,
-        LOCAL_BID_DEPTH_CLEAR_EVENT,
-        LOCAL_CANCEL_ORDER_EVENT,
-        LOCAL_DEPTH_CLEAR_EVENT,
-        LOCAL_EVENT,
-        LOCAL_MODIFY_ORDER_EVENT,
-        LOCAL_TRADE_EVENT,
-        OrdType,
-        Order,
-        OrderId,
-        Side,
-        StateValues,
-        Status,
-        TimeInForce,
+        AUCTION_UPDATE_EVENT, DEPTH_CLEAR_EVENT, Event, LOCAL_ASK_ADD_ORDER_EVENT,
+        LOCAL_ASK_DEPTH_CLEAR_EVENT, LOCAL_BID_ADD_ORDER_EVENT, LOCAL_BID_DEPTH_CLEAR_EVENT,
+        LOCAL_CANCEL_ORDER_EVENT, LOCAL_DEPTH_CLEAR_EVENT, LOCAL_EVENT, LOCAL_FILL_EVENT,
+        LOCAL_MODIFY_ORDER_EVENT, LOCAL_TRADE_EVENT, OrdType, Order, OrderId, Side, StateValues,
+        Status, TimeInForce,
     },
 };
 
@@ -226,6 +216,12 @@ where
     }
 
     fn process(&mut self, ev: &Event) -> Result<(), BacktestError> {
+        if !ev.is(AUCTION_UPDATE_EVENT) {
+            self.depth.set_allow_price_cross(false);
+        } else if ev.is(AUCTION_UPDATE_EVENT) {
+            self.depth.set_allow_price_cross(true);
+        }
+
         // Processes a depth event
         if ev.is(LOCAL_BID_DEPTH_CLEAR_EVENT) {
             self.depth.clear_orders(Side::Buy);
@@ -243,7 +239,46 @@ where
             self.depth
                 .modify_order(ev.order_id, ev.px, ev.qty, ev.local_ts)?;
         } else if ev.is(LOCAL_CANCEL_ORDER_EVENT) {
+            // println!("DELETE {:?}", ev);
             self.depth.delete_order(ev.order_id, ev.local_ts)?;
+        } else if !ev.is(AUCTION_UPDATE_EVENT) && ev.is(LOCAL_FILL_EVENT) {
+            // println!("FILL {:?}", ev);
+            let order1 = self
+                .depth
+                .orders()
+                .get(&ev.order_id)
+                .ok_or(BacktestError::OrderNotFound)?;
+
+            // println!("order1 found {:?}", order1);
+
+            let remaining_qty = order1.qty - ev.qty;
+            // println!("remaining qty {:?}", remaining_qty);
+            // println!("curr price {:?}", order1.price_tick as f64 * self.depth.tick_size());
+            self.depth.modify_order(
+                ev.order_id,
+                order1.price_tick as f64 * self.depth.tick_size(),
+                remaining_qty,
+                ev.local_ts,
+            )?;
+
+            let ival_u64 = ev.ival as u64;
+            let order2 = self
+                .depth
+                .orders()
+                .get(&ival_u64)
+                .ok_or(BacktestError::OrderNotFound)?;
+
+            // println!("order2 found {:?}", order2);
+
+            let remaining_qty_2 = order2.qty - ev.qty;
+            // println!("remaining qty 2 {:?}", remaining_qty_2);
+            self.depth.modify_order(
+                order2.order_id,
+                order2.price_tick as f64 * self.depth.tick_size(),
+                remaining_qty_2,
+                ev.local_ts,
+            )?;
+
         }
         // Processes a trade event
         else if ev.is(LOCAL_TRADE_EVENT) && self.trades.capacity() > 0 {
@@ -264,6 +299,118 @@ where
         // Processes the order part.
         let mut wait_resp_order_received = false;
         while let Some(order) = self.order_l2e.receive(timestamp) {
+            // 收到 is_auction order 更新 depth
+            // qty < 0 ask 剩余，qty > 0 bid 剩余
+            if order.is_auction {
+                println!("=============================");
+                println!("local auction price: {}", order.exec_price());
+                println!("local auction qty: {}", order.qty);
+
+                let auction_price = order.exec_price();
+                let auction_price_tick = (auction_price / self.depth.tick_size()).round() as i64;
+                let auction_qty = order.qty;
+                let timestamp = order.local_timestamp;
+
+                // 1. 全部删除订单
+                let mut orders_to_delete = Vec::new();
+
+                for (order_id, order_info) in self.depth.orders() {
+                    let should_delete = match order_info.side {
+                        Side::Buy => {
+                            // 删除高于集合竞价价格的买单, 删除等于集合竞价且数量小于卖单的买单
+                            if order_info.price_tick > auction_price_tick {
+                                true
+                            } else if order_info.price_tick == auction_price_tick
+                                && auction_qty > 0.0
+                            {
+                                true
+                            } else {
+                                false
+                            }
+                        }
+                        Side::Sell => {
+                            // 删除低于集合竞价价格的卖单, 删除等于集合竞价且数量小于买单的卖单
+                            if order_info.price_tick < auction_price_tick {
+                                true
+                            } else if order_info.price_tick == auction_price_tick
+                                && auction_qty < 0.0
+                            {
+                                true
+                            } else {
+                                false
+                            }
+                        }
+                        _ => false,
+                    };
+
+                    if should_delete {
+                        orders_to_delete.push(*order_id);
+                    }
+                }
+
+                // 删除收集到的订单
+                for order_id in orders_to_delete {
+                    self.depth.delete_order(order_id, timestamp)?;
+                }
+
+                // 2. 部分成交订单
+                let side = if auction_qty > 0.0 {
+                    Side::Sell
+                } else {
+                    Side::Buy
+                };
+                let mut at_auction_price: Vec<(OrderId, &L3Order)> = {
+                    self.depth
+                        .orders()
+                        .iter()
+                        .filter(|(_order_id, order_info)| {
+                            order_info.side == side && order_info.price_tick == auction_price_tick
+                        })
+                        .map(|(id, order)| (*id, order)) // 保持引用
+                        .collect()
+                };
+                at_auction_price.sort_by_key(|(_order_id, order_info)| order_info.timestamp);
+
+                // println!("at auction {:?}", &at_auction_price);
+
+                let mut total_qty = 0.0;
+                for (_, l3order) in &at_auction_price {
+                    total_qty += l3order.qty;
+                }
+                let need_to_fill = total_qty - auction_qty.abs();
+                let mut already_filled = 0.0;
+
+                let mut order_to_modify: Option<(OrderId, f64, f64)> = None;
+                let mut orders_to_delete = Vec::new();
+
+                for (id, l3order) in at_auction_price {
+                    if already_filled >= need_to_fill {
+                        break;
+                    }
+                    // 这个订单需要成交的量
+                    let order_fill_qty = (need_to_fill - already_filled).min(order.leaves_qty);
+                    already_filled += order_fill_qty;
+
+                    if order_fill_qty >= l3order.qty {
+                        orders_to_delete.push(id);
+                    } else if order_fill_qty > 0.0 {
+                        let remaining_qty = l3order.qty - order_fill_qty;
+                        order_to_modify = Some((id, auction_price, remaining_qty));
+                    }
+                }
+
+                if let Some((id, price, qty)) = order_to_modify {
+                    // println!("at auction left {}, {}, {}", id, price, qty);
+                    self.depth.modify_order(id, price, qty, timestamp)?;
+                }
+
+                for order_id in orders_to_delete {
+                    self.depth.delete_order(order_id, timestamp)?;
+                }
+
+                // println!("best ask {:?}", self.depth.best_ask());
+                // println!("best bid {:?}", self.depth.best_bid());
+            }
             // Updates the order latency only if it has a valid exchange timestamp. When the
             // order is rejected before it reaches the matching engine, it has no exchange
             // timestamp. This situation occurs in crypto exchanges.

@@ -5,19 +5,10 @@ use std::{
 };
 
 use crate::{
-    backtest::BacktestError,
+    backtest::{BacktestError, order},
     depth::{INVALID_MAX, INVALID_MIN, MarketDepth},
     types::{
-        AnyClone,
-        BUY_EVENT,
-        Event,
-        OrdType,
-        Order,
-        OrderId,
-        SELL_EVENT,
-        Side,
-        Status,
-        TimeInForce,
+        AnyClone, BUY_EVENT, Event, OrdType, Order, OrderId, SELL_EVENT, Side, Status, TimeInForce,
     },
 };
 
@@ -464,6 +455,14 @@ pub trait L3QueueModel<MD> {
     /// Due to these challenges, HftBacktest opts to clear all backtest orders upon receiving a
     /// clear message, even though this may differ from the exchange's actual behavior.
     fn clear_orders(&mut self, side: Side) -> Vec<Order>;
+
+    fn fill_auction_bids(&mut self, auction_price_tick: i64) -> Result<Vec<Order>, BacktestError>;
+
+    fn fill_auction_asks(&mut self, auction_price_tick: i64) -> Result<Vec<Order>, BacktestError>;
+
+    fn get_all_bid_orders(&self) -> Vec<Order>;
+
+    fn get_all_ask_orders(&self) -> Vec<Order>;
 }
 
 /// This provides a Level 3 Market-By-Order queue model for backtesting in a FIFO manner. This means
@@ -675,6 +674,7 @@ where
             req: Status::None,
             status: Status::None,
             time_in_force: TimeInForce::GTC,
+            is_auction: false,
         });
 
         match self.mkt_feed_orders.entry(order_id) {
@@ -1111,6 +1111,92 @@ where
             }
         }
     }
+
+    // TODO may not needed
+    fn fill_auction_bids(&mut self, auction_price_tick: i64) -> Result<Vec<Order>, BacktestError> {
+        let mut filled = Vec::new();
+
+        // 收集所有需要成交的价格层级
+        let bid_ticks: Vec<i64> = self
+            .bid_queue
+            .keys()
+            .filter(|&&tick| tick >= auction_price_tick)
+            .copied()
+            .collect();
+
+        // 处理每个价格层级
+        for tick in bid_ticks {
+            if let Some(queue) = self.bid_queue.get_mut(&tick) {
+                let mut i = 0;
+                while i < queue.len() {
+                    let order = queue.get(i).unwrap();
+                    if order.is_backtest_order() {
+                        let order = queue.remove(i).unwrap();
+                        self.backtest_orders.remove(&order.order_id);
+                        filled.push(order);
+                    } else {
+                        i += 1;
+                    }
+                }
+            }
+        }
+
+        Ok(filled)
+    }
+
+    // TODO may not needed
+    fn fill_auction_asks(&mut self, auction_price_tick: i64) -> Result<Vec<Order>, BacktestError> {
+        let mut filled = Vec::new();
+
+        // 收集所有需要成交的价格层级
+        let ask_ticks: Vec<i64> = self
+            .ask_queue
+            .keys()
+            .filter(|&&tick| tick <= auction_price_tick)
+            .copied()
+            .collect();
+
+        // 处理每个价格层级
+        for tick in ask_ticks {
+            if let Some(queue) = self.ask_queue.get_mut(&tick) {
+                let mut i = 0;
+                while i < queue.len() {
+                    let order = queue.get(i).unwrap();
+                    if order.is_backtest_order() {
+                        let order = queue.remove(i).unwrap();
+                        self.backtest_orders.remove(&order.order_id);
+                        filled.push(order);
+                    } else {
+                        i += 1;
+                    }
+                }
+            }
+        }
+
+        Ok(filled)
+    }
+
+    fn get_all_bid_orders(&self) -> Vec<Order> {
+        let mut all_bid_orders = Vec::new();
+        for (_price_tick, queue) in &self.bid_queue {
+            for order in queue.iter() {
+                all_bid_orders.push(order.clone());
+            }
+        }
+        all_bid_orders.sort_by(|a, b| b.price_tick.cmp(&a.price_tick));
+        all_bid_orders
+    }
+
+    fn get_all_ask_orders(&self) -> Vec<Order> {
+        let mut all_ask_orders = Vec::new();
+        for (_price_tick, queue) in &self.ask_queue {
+            for order in queue.iter() {
+                all_ask_orders.push(order.clone());
+            }
+        }
+        all_ask_orders.sort_by(|a, b| a.price_tick.cmp(&b.price_tick));
+        all_ask_orders
+    }
 }
 
 #[cfg(test)]
@@ -1118,14 +1204,7 @@ mod l3_tests {
     use crate::{
         backtest::{L3QueueModel, models::L3FIFOQueueModel},
         prelude::{
-            Event,
-            HashMapMarketDepth,
-            L3MarketDepth,
-            OrdType,
-            Order,
-            Side,
-            Status,
-            TimeInForce,
+            Event, HashMapMarketDepth, L3MarketDepth, OrdType, Order, Side, Status, TimeInForce,
         },
         types::{ADD_ORDER_EVENT, BUY_EVENT, EXCH_EVENT, FILL_EVENT, SELL_EVENT},
     };
@@ -1185,6 +1264,7 @@ mod l3_tests {
                 status: Status::None,
                 side: Side::Buy,
                 time_in_force: TimeInForce::GTC,
+                is_auction: false,
             },
             &depth,
         )
@@ -1219,6 +1299,7 @@ mod l3_tests {
                 status: Status::None,
                 side: Side::Sell,
                 time_in_force: TimeInForce::GTC,
+                is_auction: false,
             },
             &depth,
         )
@@ -1275,6 +1356,7 @@ mod l3_tests {
                 status: Status::None,
                 side: Side::Buy,
                 time_in_force: TimeInForce::GTC,
+                is_auction: false,
             },
             &depth,
         )
