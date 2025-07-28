@@ -375,6 +375,7 @@ where
             }
         } else if event.is(EXCH_DEPTH_CLEAR_EVENT) {
             // println!("[EXCHANGE] FULL DEPTH CLEAR");
+            self.auction_processed = false;
             self.depth.clear_orders(Side::None);
             let expired = self.queue_model.clear_orders(Side::None);
             for order in expired {
