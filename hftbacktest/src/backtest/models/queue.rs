@@ -511,7 +511,7 @@ impl L3FIFOQueueModel {
                 let queue = self.bid_queue.get_mut(&order_price_tick).unwrap();
                 queue.retain(|order| {
                     if order.is_backtest_order() {
-                        filled.push(order.clone());
+                        filled.push(order.clone()); // TODO how to partial fill
                         false
                     } else {
                         true
@@ -524,7 +524,7 @@ impl L3FIFOQueueModel {
                     queue.retain(|order| {
                         if order.is_backtest_order() {
                             self.backtest_orders.remove(&order.order_id);
-                            filled.push(order.clone());
+                            filled.push(order.clone()); // TODO how to partial fill
                             false
                         } else {
                             true

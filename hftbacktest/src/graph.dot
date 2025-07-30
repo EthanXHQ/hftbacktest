@@ -1,0 +1,985 @@
+digraph {
+
+    graph [
+        label="hftbacktest",
+        labelloc=t,
+
+        pad=0.4,
+
+        // Consider rendering the graph using a different layout algorithm, such as:
+        // [dot, neato, twopi, circo, fdp, sfdp]
+        layout=neato,
+        overlap=false,
+        splines="line",
+        rankdir=LR,
+
+        fontname="Helvetica", 
+        fontsize="36",
+    ];
+
+    node [
+        fontname="monospace",
+        fontsize="10",
+        shape="record",
+        style="filled",
+    ];
+
+    edge [
+        fontname="monospace",
+        fontsize="10",
+    ];
+
+    "hftbacktest" [label="crate|hftbacktest", fillcolor="#5397c8"]; // "crate" node
+    "hftbacktest::backtest" [label="pub mod|backtest", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::Asset" [label="pub struct|backtest::Asset", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::Backtest" [label="pub struct|backtest::Backtest", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::Backtest::Error" [label="pub(self) type|backtest::Backtest::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::backtest::BacktestBuilder" [label="pub struct|backtest::BacktestBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::BacktestError" [label="pub enum|backtest::BacktestError", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::backtest::BacktestProcessorState" [label="pub struct|backtest::BacktestProcessorState", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::ExchangeKind" [label="pub enum|backtest::ExchangeKind", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::backtest::L2AssetBuilder" [label="pub struct|backtest::L2AssetBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::L3AssetBuilder" [label="pub struct|backtest::L3AssetBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" [label="pub struct|backtest::MultiAssetSingleExchangeBacktest", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest::Error" [label="pub(self) type|backtest::MultiAssetSingleExchangeBacktest::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" [label="pub struct|backtest::MultiAssetSingleExchangeBacktestBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::assettype" [label="pub mod|backtest::assettype", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::assettype::AssetType" [label="pub trait|backtest::assettype::AssetType", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::assettype::InverseAsset" [label="pub struct|backtest::assettype::InverseAsset", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::assettype::LinearAsset" [label="pub struct|backtest::assettype::LinearAsset", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data" [label="pub mod|backtest::data", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::data::Data" [label="pub struct|backtest::data::Data", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::DataPtr" [label="pub struct|backtest::data::DataPtr", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::POD" [label="pub unsafe trait|backtest::data::POD", fillcolor="#81c169"]; // "unsafe trait" node
+    "hftbacktest::backtest::data::npy" [label="pub(self) mod|backtest::data::npy", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::data::npy::DType" [label="pub type|backtest::data::npy::DType", fillcolor="#81c169"]; // "type" node
+    "hftbacktest::backtest::data::npy::Field" [label="pub struct|backtest::data::npy::Field", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::npy::FieldCheckResult" [label="pub(self) struct|backtest::data::npy::FieldCheckResult", fillcolor="#db5367"]; // "struct" node
+    "hftbacktest::backtest::data::npy::NpyDTyped" [label="pub trait|backtest::data::npy::NpyDTyped", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::data::npy::NpyHeader" [label="pub struct|backtest::data::npy::NpyHeader", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::npy::parser" [label="pub(self) mod|backtest::data::npy::parser", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::data::npy::parser::Value" [label="pub enum|backtest::data::npy::parser::Value", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::backtest::data::reader" [label="pub(self) mod|backtest::data::reader", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::data::reader::Cache" [label="pub struct|backtest::data::reader::Cache", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::reader::CachedData" [label="pub(self) struct|backtest::data::reader::CachedData", fillcolor="#db5367"]; // "struct" node
+    "hftbacktest::backtest::data::reader::DataPreprocess" [label="pub trait|backtest::data::reader::DataPreprocess", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::data::reader::DataSend" [label="pub(self) struct|backtest::data::reader::DataSend", fillcolor="#db5367"]; // "struct" node
+    "hftbacktest::backtest::data::reader::DataSource" [label="pub enum|backtest::data::reader::DataSource", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" [label="pub struct|backtest::data::reader::FeedLatencyAdjustment", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::reader::LoadDataResult" [label="pub(self) struct|backtest::data::reader::LoadDataResult", fillcolor="#db5367"]; // "struct" node
+    "hftbacktest::backtest::data::reader::Reader" [label="pub struct|backtest::data::reader::Reader", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::data::reader::ReaderBuilder" [label="pub struct|backtest::data::reader::ReaderBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::evs" [label="pub(self) mod|backtest::evs", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::evs::EventIntent" [label="pub struct|backtest::evs::EventIntent", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::evs::EventIntentKind" [label="pub enum|backtest::evs::EventIntentKind", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::backtest::evs::EventSet" [label="pub struct|backtest::evs::EventSet", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models" [label="pub mod|backtest::models", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::models::fee" [label="pub(self) mod|backtest::models::fee", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models::fee::CommonFees" [label="pub struct|backtest::models::fee::CommonFees", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::fee::DirectionalFees" [label="pub struct|backtest::models::fee::DirectionalFees", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::fee::FeeModel" [label="pub trait|backtest::models::fee::FeeModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::fee::FlatPerTradeFeeModel" [label="pub struct|backtest::models::fee::FlatPerTradeFeeModel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::fee::TradingQtyFeeModel" [label="pub struct|backtest::models::fee::TradingQtyFeeModel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::fee::TradingValueFeeModel" [label="pub struct|backtest::models::fee::TradingValueFeeModel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::latency" [label="pub(self) mod|backtest::models::latency", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models::latency::ConstantLatency" [label="pub struct|backtest::models::latency::ConstantLatency", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" [label="pub struct|backtest::models::latency::IntpOrderLatency", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::latency::LatencyModel" [label="pub trait|backtest::models::latency::LatencyModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::latency::OrderLatencyAdjustment" [label="pub(self) struct|backtest::models::latency::OrderLatencyAdjustment", fillcolor="#db5367"]; // "struct" node
+    "hftbacktest::backtest::models::latency::OrderLatencyRow" [label="pub struct|backtest::models::latency::OrderLatencyRow", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue" [label="pub(self) mod|backtest::models::queue", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" [label="pub struct|backtest::models::queue::L3FIFOQueueModel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::L3Order" [label="pub(self) trait|backtest::models::queue::L3Order", fillcolor="#db5367"]; // "trait" node
+    "hftbacktest::backtest::models::queue::L3OrderSource" [label="pub(self) enum|backtest::models::queue::L3OrderSource", fillcolor="#db5367"]; // "enum" node
+    "hftbacktest::backtest::models::queue::L3QueueModel" [label="pub trait|backtest::models::queue::L3QueueModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::queue::LogProbQueueFunc" [label="pub struct|backtest::models::queue::LogProbQueueFunc", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::LogProbQueueFunc2" [label="pub struct|backtest::models::queue::LogProbQueueFunc2", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::PowerProbQueueFunc" [label="pub struct|backtest::models::queue::PowerProbQueueFunc", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::PowerProbQueueFunc2" [label="pub struct|backtest::models::queue::PowerProbQueueFunc2", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::PowerProbQueueFunc3" [label="pub struct|backtest::models::queue::PowerProbQueueFunc3", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::ProbQueueModel" [label="pub struct|backtest::models::queue::ProbQueueModel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::Probability" [label="pub trait|backtest::models::queue::Probability", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::queue::QueueModel" [label="pub trait|backtest::models::queue::QueueModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::queue::QueuePos" [label="pub struct|backtest::models::queue::QueuePos", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::models::queue::RiskAdverseQueueModel" [label="pub struct|backtest::models::queue::RiskAdverseQueueModel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::order" [label="pub mod|backtest::order", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::order::ExchToLocal" [label="pub struct|backtest::order::ExchToLocal", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::order::LocalToExch" [label="pub struct|backtest::order::LocalToExch", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::order::OrderBus" [label="pub struct|backtest::order::OrderBus", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::proc" [label="pub mod|backtest::proc", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::proc::LocalProcessor" [label="pub trait|backtest::proc::LocalProcessor", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::proc::Processor" [label="pub trait|backtest::proc::Processor", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::proc::l3_local" [label="pub(self) mod|backtest::proc::l3_local", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::l3_local::L3Local" [label="pub struct|backtest::proc::l3_local::L3Local", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" [label="pub(self) mod|backtest::proc::l3_nopartialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" [label="pub struct|backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::proc::l3_partialfillexchange" [label="pub(self) mod|backtest::proc::l3_partialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" [label="pub struct|backtest::proc::l3_partialfillexchange::L3PartialFillExchange", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::proc::local" [label="pub(self) mod|backtest::proc::local", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::local::Local" [label="pub struct|backtest::proc::local::Local", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::proc::nopartialfillexchange" [label="pub(self) mod|backtest::proc::nopartialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" [label="pub struct|backtest::proc::nopartialfillexchange::NoPartialFillExchange", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::proc::partialfillexchange" [label="pub(self) mod|backtest::proc::partialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" [label="pub struct|backtest::proc::partialfillexchange::PartialFillExchange", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::recorder" [label="pub mod|backtest::recorder", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::recorder::BacktestRecorder" [label="pub struct|backtest::recorder::BacktestRecorder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::backtest::recorder::BacktestRecorder::Error" [label="pub(self) type|backtest::recorder::BacktestRecorder::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::backtest::recorder::Record" [label="pub(self) struct|backtest::recorder::Record", fillcolor="#db5367"]; // "struct" node
+    "hftbacktest::backtest::state" [label="pub mod|backtest::state", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::state::State" [label="pub struct|backtest::state::State", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::depth" [label="pub mod|depth", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::depth::ApplySnapshot" [label="pub trait|depth::ApplySnapshot", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L1MarketDepth" [label="pub trait|depth::L1MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L2MarketDepth" [label="pub trait|depth::L2MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L3MarketDepth" [label="pub trait|depth::L3MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L3Order" [label="pub struct|depth::L3Order", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::depth::MarketDepth" [label="pub trait|depth::MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::btreemarketdepth" [label="pub(self) mod|depth::btreemarketdepth", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" [label="pub struct|depth::btreemarketdepth::BTreeMarketDepth", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth::Error" [label="pub(self) type|depth::btreemarketdepth::BTreeMarketDepth::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::depth::hashmapmarketdepth" [label="pub(self) mod|depth::hashmapmarketdepth", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" [label="pub struct|depth::hashmapmarketdepth::HashMapMarketDepth", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth::Error" [label="pub(self) type|depth::hashmapmarketdepth::HashMapMarketDepth::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::depth::roivectormarketdepth" [label="pub(self) mod|depth::roivectormarketdepth", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" [label="pub struct|depth::roivectormarketdepth::ROIVectorMarketDepth", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth::Error" [label="pub(self) type|depth::roivectormarketdepth::ROIVectorMarketDepth::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::live" [label="pub mod|live", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::live::Instrument" [label="pub struct|live::Instrument", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::bot" [label="pub(self) mod|live::bot", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::live::bot::BotError" [label="pub enum|live::bot::BotError", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::live::bot::ErrorHandler" [label="pub type|live::bot::ErrorHandler", fillcolor="#81c169"]; // "type" node
+    "hftbacktest::live::bot::LiveBot" [label="pub struct|live::bot::LiveBot", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::bot::LiveBot::Error" [label="pub(self) type|live::bot::LiveBot::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::live::bot::LiveBotBuilder" [label="pub struct|live::bot::LiveBotBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::bot::OrderRecvHook" [label="pub type|live::bot::OrderRecvHook", fillcolor="#81c169"]; // "type" node
+    "hftbacktest::live::ipc" [label="pub mod|live::ipc", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::live::ipc::Channel" [label="pub trait|live::ipc::Channel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::live::ipc::config" [label="pub(self) mod|live::ipc::config", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::live::ipc::config::ChannelConfig" [label="pub struct|live::ipc::config::ChannelConfig", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::ipc::iceoryx" [label="pub mod|live::ipc::iceoryx", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::live::ipc::iceoryx::ChannelError" [label="pub enum|live::ipc::iceoryx::ChannelError", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::live::ipc::iceoryx::CustomHeader" [label="pub struct|live::ipc::iceoryx::CustomHeader", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" [label="pub struct|live::ipc::iceoryx::IceoryxBuilder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::ipc::iceoryx::IceoryxChannel" [label="pub struct|live::ipc::iceoryx::IceoryxChannel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::ipc::iceoryx::IceoryxReceiver" [label="pub struct|live::ipc::iceoryx::IceoryxReceiver", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::ipc::iceoryx::IceoryxSender" [label="pub struct|live::ipc::iceoryx::IceoryxSender", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" [label="pub struct|live::ipc::iceoryx::IceoryxUnifiedChannel", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::recorder" [label="pub(self) mod|live::recorder", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::live::recorder::LoggingRecorder" [label="pub struct|live::recorder::LoggingRecorder", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::live::recorder::LoggingRecorder::Error" [label="pub(self) type|live::recorder::LoggingRecorder::Error", fillcolor="#db5367"]; // "type" node
+    "hftbacktest::prelude" [label="pub mod|prelude", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::types" [label="pub mod|types", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::types::AnyClone" [label="pub trait|types::AnyClone", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::types::Bot" [label="pub trait|types::Bot", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::types::BuildError" [label="pub enum|types::BuildError", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::ElapseResult" [label="pub enum|types::ElapseResult", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::ErrorKind" [label="pub enum|types::ErrorKind", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::Event" [label="pub struct|types::Event", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::types::LiveError" [label="pub struct|types::LiveError", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::types::LiveEvent" [label="pub enum|types::LiveEvent", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::LiveRequest" [label="pub enum|types::LiveRequest", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::OrdType" [label="pub enum|types::OrdType", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::Order" [label="pub struct|types::Order", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::types::OrderId" [label="pub type|types::OrderId", fillcolor="#81c169"]; // "type" node
+    "hftbacktest::types::OrderRequest" [label="pub struct|types::OrderRequest", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::types::Recorder" [label="pub trait|types::Recorder", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::types::Side" [label="pub enum|types::Side", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::StateValues" [label="pub struct|types::StateValues", fillcolor="#81c169"]; // "struct" node
+    "hftbacktest::types::Status" [label="pub enum|types::Status", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::TimeInForce" [label="pub enum|types::TimeInForce", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::Value" [label="pub enum|types::Value", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::types::WaitOrderResponse" [label="pub enum|types::WaitOrderResponse", fillcolor="#81c169"]; // "enum" node
+    "hftbacktest::utils" [label="pub(crate) mod|utils", fillcolor="#f8c04c"]; // "mod" node
+    "hftbacktest::utils::aligned" [label="pub(self) mod|utils::aligned", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::utils::aligned::AlignedArray" [label="pub struct|utils::aligned::AlignedArray", fillcolor="#81c169"]; // "struct" node
+
+    "hftbacktest" -> "hftbacktest::backtest" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::depth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::live" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::prelude" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::types" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::utils" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::Asset" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::Backtest" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::BacktestBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::BacktestError" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::BacktestProcessorState" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::ExchangeKind" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::L2AssetBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::L3AssetBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::assettype" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data::npy::NpyDTyped" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data::reader::DataSource" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::evs" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::evs::EventIntentKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::evs::EventSet" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::models" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::models::queue::L3QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::models::queue::QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::order" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::LocalProcessor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::l3_local::L3Local" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::local::Local" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::recorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::state" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::Bot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::ElapseResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::OrderRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest" -> "hftbacktest::types::WaitOrderResponse" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Asset" -> "hftbacktest::backtest::L2AssetBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Asset" -> "hftbacktest::backtest::L3AssetBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Asset" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::Backtest::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::BacktestBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::BacktestProcessorState" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::evs::EventIntentKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::backtest::evs::EventSet" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::ElapseResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::OrderRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest" -> "hftbacktest::types::WaitOrderResponse" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::Backtest::Error" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::Asset" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::Backtest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::BacktestProcessorState" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::evs::EventSet" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::proc::LocalProcessor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestBuilder" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestProcessorState" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestProcessorState" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestProcessorState" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::BacktestProcessorState" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::Asset" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::ExchangeKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::data::reader::ReaderBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::proc::local::Local" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L2AssetBuilder" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::Asset" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::ExchangeKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::data::reader::ReaderBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::proc::l3_local::L3Local" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::L3AssetBuilder" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::BacktestProcessorState" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::MultiAssetSingleExchangeBacktest::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::evs::EventIntentKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::backtest::evs::EventSet" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::ElapseResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::OrderRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" -> "hftbacktest::types::WaitOrderResponse" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktest::Error" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" -> "hftbacktest::backtest::Asset" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" -> "hftbacktest::backtest::BacktestProcessorState" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" -> "hftbacktest::backtest::MultiAssetSingleExchangeBacktest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" -> "hftbacktest::backtest::evs::EventSet" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::MultiAssetSingleExchangeBacktestBuilder" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::assettype" -> "hftbacktest::backtest::assettype::AssetType" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::assettype" -> "hftbacktest::backtest::assettype::InverseAsset" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::assettype" -> "hftbacktest::backtest::assettype::LinearAsset" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::Data" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::DataPtr" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::POD" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::npy" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::npy" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::npy::Field" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::npy::NpyDTyped" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::npy::NpyHeader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader::Cache" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader::DataPreprocess" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader::DataSource" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader::ReaderBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::utils::aligned::AlignedArray" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::Data" -> "hftbacktest::backtest::data::DataPtr" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::DataPtr" -> "hftbacktest::utils::aligned::AlignedArray" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::DataPtr" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::POD" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::DType" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::Field" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::FieldCheckResult" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::FieldCheckResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::NpyDTyped" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::NpyHeader" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::NpyHeader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::parser" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::parser::Value" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy::NpyHeader" -> "hftbacktest::backtest::data::npy::Field" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy::NpyHeader" -> "hftbacktest::backtest::data::npy::parser::Value" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::npy::parser" -> "hftbacktest::backtest::data::npy::parser::Value" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy::parser" -> "hftbacktest::backtest::data::npy::parser::Value" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::POD" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::npy" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::npy::NpyDTyped" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::Cache" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::CachedData" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::DataPreprocess" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::DataSend" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::DataSource" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::LoadDataResult" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::Reader" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::ReaderBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Cache" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Cache" -> "hftbacktest::backtest::data::reader::CachedData" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::CachedData" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::DataSend" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::DataSource" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::FeedLatencyAdjustment" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::LoadDataResult" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::LoadDataResult" -> "hftbacktest::backtest::data::reader::DataSend" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Reader" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Reader" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Reader" -> "hftbacktest::backtest::data::reader::Cache" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Reader" -> "hftbacktest::backtest::data::reader::LoadDataResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::Reader" -> "hftbacktest::backtest::data::reader::ReaderBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::ReaderBuilder" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::ReaderBuilder" -> "hftbacktest::backtest::data::reader::Cache" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::ReaderBuilder" -> "hftbacktest::backtest::data::reader::DataSource" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::data::reader::ReaderBuilder" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::evs" -> "hftbacktest::backtest::evs::EventIntent" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::evs" -> "hftbacktest::backtest::evs::EventIntentKind" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::evs" -> "hftbacktest::backtest::evs::EventSet" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::evs" -> "hftbacktest::utils::aligned::AlignedArray" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::evs::EventIntent" -> "hftbacktest::backtest::evs::EventIntentKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::evs::EventSet" -> "hftbacktest::backtest::evs::EventIntent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::evs::EventSet" -> "hftbacktest::backtest::evs::EventIntentKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::evs::EventSet" -> "hftbacktest::utils::aligned::AlignedArray" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee::CommonFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee::DirectionalFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee::FlatPerTradeFeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee::TradingQtyFeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee::TradingValueFeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::latency" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::latency::ConstantLatency" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::latency::IntpOrderLatency" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::latency::OrderLatencyRow" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::L3FIFOQueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::L3QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::LogProbQueueFunc" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::LogProbQueueFunc2" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::PowerProbQueueFunc" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::PowerProbQueueFunc2" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::PowerProbQueueFunc3" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::ProbQueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::Probability" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::QueuePos" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue::RiskAdverseQueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::CommonFees" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::DirectionalFees" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::FeeModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::FlatPerTradeFeeModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::TradingQtyFeeModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::TradingValueFeeModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::DirectionalFees" -> "hftbacktest::backtest::models::fee::CommonFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::FlatPerTradeFeeModel" -> "hftbacktest::backtest::models::fee::CommonFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::FlatPerTradeFeeModel" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingQtyFeeModel" -> "hftbacktest::backtest::models::fee::CommonFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingQtyFeeModel" -> "hftbacktest::backtest::models::fee::DirectionalFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingQtyFeeModel" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingQtyFeeModel" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingValueFeeModel" -> "hftbacktest::backtest::models::fee::CommonFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingValueFeeModel" -> "hftbacktest::backtest::models::fee::DirectionalFees" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingValueFeeModel" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::fee::TradingValueFeeModel" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::data::POD" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::data::reader::DataPreprocess" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::data::reader::DataSource" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::models::latency::ConstantLatency" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::models::latency::IntpOrderLatency" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::models::latency::OrderLatencyAdjustment" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::models::latency::OrderLatencyRow" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::ConstantLatency" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::backtest::data::reader::Reader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::backtest::data::reader::ReaderBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::backtest::models::latency::OrderLatencyAdjustment" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::backtest::models::latency::OrderLatencyRow" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::IntpOrderLatency" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::OrderLatencyAdjustment" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::latency::OrderLatencyAdjustment" -> "hftbacktest::backtest::models::latency::OrderLatencyRow" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::L3FIFOQueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::L3Order" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::L3OrderSource" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::L3QueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::LogProbQueueFunc" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::LogProbQueueFunc2" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::PowerProbQueueFunc" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::PowerProbQueueFunc2" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::PowerProbQueueFunc3" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::ProbQueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::Probability" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::QueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::QueuePos" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::RiskAdverseQueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::AnyClone" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::backtest::models::queue::L3OrderSource" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::L3FIFOQueueModel" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::ProbQueueModel" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::ProbQueueModel" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::RiskAdverseQueueModel" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::models::queue::RiskAdverseQueueModel" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::order::ExchToLocal" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::order::LocalToExch" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::order::OrderBus" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::backtest::order::OrderBus" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order::ExchToLocal" -> "hftbacktest::backtest::order::OrderBus" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order::ExchToLocal" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order::LocalToExch" -> "hftbacktest::backtest::order::OrderBus" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order::LocalToExch" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::order::OrderBus" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::LocalProcessor" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::Processor" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_local" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_local::L3Local" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_nopartialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_partialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::local" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::local::Local" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::nopartialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::partialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::proc::LocalProcessor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::proc::l3_local::L3Local" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_local::L3Local" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::models::queue::L3QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange::L3NoPartialFillExchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::models::queue::L3QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::l3_partialfillexchange::L3PartialFillExchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::proc::LocalProcessor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::proc::local::Local" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::backtest::order::LocalToExch" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::local::Local" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::models::queue::QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::nopartialfillexchange::NoPartialFillExchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::models::queue::QueueModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::proc::Processor" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::backtest::order::ExchToLocal" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::backtest::state::State" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::proc::partialfillexchange::PartialFillExchange" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::backtest::data::POD" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::backtest::data::npy" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::backtest::recorder::BacktestRecorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::backtest::recorder::Record" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::types::Bot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder" -> "hftbacktest::types::Recorder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder::BacktestRecorder" -> "hftbacktest::backtest::recorder::BacktestRecorder::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::recorder::BacktestRecorder" -> "hftbacktest::backtest::recorder::Record" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::recorder::BacktestRecorder" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state" -> "hftbacktest::backtest::assettype::AssetType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state" -> "hftbacktest::backtest::models::fee::FeeModel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state" -> "hftbacktest::backtest::state::State" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::state" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state::State" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state::State" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::backtest::state::State" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::ApplySnapshot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L1MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L2MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L3MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L3Order" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::btreemarketdepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::hashmapmarketdepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::roivectormarketdepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::L3Order" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::depth::ApplySnapshot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" -> "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth::Error" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::depth::ApplySnapshot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" -> "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth::Error" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::depth::ApplySnapshot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" -> "hftbacktest::backtest::data::Data" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" -> "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth::Error" -> "hftbacktest::backtest::BacktestError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::live::Instrument" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::bot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::bot::BotError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::live::bot::LiveBot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::live::bot::LiveBotBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::live::ipc" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::recorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::recorder::LoggingRecorder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::Instrument" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::Instrument" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::bot::BotError" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::bot::ErrorHandler" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::bot::LiveBot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::bot::LiveBotBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::bot::OrderRecvHook" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::bot" -> "hftbacktest::live::ipc::Channel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::Bot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::ElapseResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::LiveError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::LiveEvent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::OrderRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot" -> "hftbacktest::types::WaitOrderResponse" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::live::bot::BotError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::live::bot::LiveBot::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::ElapseResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::LiveError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::LiveEvent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::OrderRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot" -> "hftbacktest::types::WaitOrderResponse" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBot::Error" -> "hftbacktest::live::bot::BotError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBotBuilder" -> "hftbacktest::live::Instrument" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBotBuilder" -> "hftbacktest::live::bot::LiveBot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBotBuilder" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::bot::LiveBotBuilder" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::Instrument" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::bot::BotError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::ipc::Channel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::ipc::config" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::ipc::iceoryx" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::types::LiveEvent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::config" -> "hftbacktest::live::ipc::config::ChannelConfig" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::Instrument" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::bot::BotError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::Channel" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::config::ChannelConfig" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::ChannelError" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::CustomHeader" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::IceoryxChannel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::IceoryxReceiver" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::IceoryxSender" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::types::LiveEvent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" -> "hftbacktest::live::ipc::config::ChannelConfig" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" -> "hftbacktest::live::ipc::iceoryx::ChannelError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" -> "hftbacktest::live::ipc::iceoryx::CustomHeader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" -> "hftbacktest::live::ipc::iceoryx::IceoryxReceiver" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" -> "hftbacktest::live::ipc::iceoryx::IceoryxSender" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxChannel" -> "hftbacktest::live::ipc::iceoryx::IceoryxBuilder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxChannel" -> "hftbacktest::live::ipc::iceoryx::IceoryxReceiver" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxChannel" -> "hftbacktest::live::ipc::iceoryx::IceoryxSender" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxReceiver" -> "hftbacktest::live::ipc::iceoryx::CustomHeader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxSender" -> "hftbacktest::live::ipc::iceoryx::CustomHeader" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::live::Instrument" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::live::bot::BotError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::live::ipc::iceoryx::ChannelError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::types::LiveError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::types::LiveEvent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::ipc::iceoryx::IceoryxUnifiedChannel" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::recorder" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::recorder" -> "hftbacktest::live::recorder::LoggingRecorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::recorder" -> "hftbacktest::types::Bot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::recorder" -> "hftbacktest::types::Recorder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::recorder" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::recorder" -> "hftbacktest::utils" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::live::recorder::LoggingRecorder" -> "hftbacktest::live::recorder::LoggingRecorder::Error" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::recorder::LoggingRecorder" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::ApplySnapshot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::L1MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::L2MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::L3MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::L3Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::btreemarketdepth::BTreeMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::hashmapmarketdepth::HashMapMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::depth::roivectormarketdepth::ROIVectorMarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::AnyClone" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Bot" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::BuildError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::ElapseResult" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::ErrorKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::LiveError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::LiveEvent" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::LiveRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::OrderId" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::OrderRequest" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Recorder" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::StateValues" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::Value" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::types::WaitOrderResponse" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::utils" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::prelude" -> "hftbacktest::utils::aligned::AlignedArray" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types" -> "hftbacktest::backtest::data::POD" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types" -> "hftbacktest::depth::MarketDepth" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types" -> "hftbacktest::types::AnyClone" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Bot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::BuildError" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::ElapseResult" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::ErrorKind" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Event" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::LiveError" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::LiveEvent" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::LiveRequest" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::OrdType" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Order" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::OrderId" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::OrderRequest" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Recorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Side" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::StateValues" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Status" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::TimeInForce" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Value" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::WaitOrderResponse" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types::LiveError" -> "hftbacktest::types::ErrorKind" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::LiveError" -> "hftbacktest::types::Value" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::LiveEvent" -> "hftbacktest::types::Event" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::LiveEvent" -> "hftbacktest::types::LiveError" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::LiveEvent" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::LiveRequest" -> "hftbacktest::types::Order" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::Order" -> "hftbacktest::backtest::models::queue::L3OrderSource" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::Order" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::Order" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::Order" -> "hftbacktest::types::Status" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::Order" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::OrderRequest" -> "hftbacktest::types::OrdType" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::OrderRequest" -> "hftbacktest::types::Side" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::types::OrderRequest" -> "hftbacktest::types::TimeInForce" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::utils" -> "hftbacktest::utils::aligned" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::utils" -> "hftbacktest::utils::aligned::AlignedArray" [label="uses", color="#7f7f7f", style="dashed"] [constraint=false]; // "uses" edge
+    "hftbacktest::utils::aligned" -> "hftbacktest::utils::aligned::AlignedArray" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+
+}

@@ -1,23 +1,19 @@
-use core::time;
-
-use uuid::timestamp;
-
 use crate::{
     backtest::{
         BacktestError,
         assettype::AssetType,
         models::{FeeModel, L3QueueModel, LatencyModel},
-        order::{self, ExchToLocal},
+        order::ExchToLocal,
         proc::Processor,
         state::State,
     },
     depth::{INVALID_MAX, INVALID_MIN, L3MarketDepth},
     prelude::OrdType,
     types::{
-        AUCTION_UPDATE_EVENT, BUY_EVENT, DEPTH_CLEAR_EVENT, EXCH_ASK_ADD_ORDER_EVENT,
+        AUCTION_UPDATE_EVENT, BUY_EVENT, EXCH_ASK_ADD_ORDER_EVENT,
         EXCH_ASK_DEPTH_CLEAR_EVENT, EXCH_BID_ADD_ORDER_EVENT, EXCH_BID_DEPTH_CLEAR_EVENT,
         EXCH_CANCEL_ORDER_EVENT, EXCH_DEPTH_CLEAR_EVENT, EXCH_EVENT, EXCH_FILL_EVENT,
-        EXCH_MODIFY_ORDER_EVENT, Event, Order, OrderId, SELL_EVENT, Side, Status, TimeInForce,
+        Event, Order, OrderId, SELL_EVENT, Side, Status, TimeInForce,
     },
 };
 
@@ -71,6 +67,40 @@ where
         order.exch_timestamp = timestamp;
 
         self.order_e2l.respond(order);
+        Ok(())
+    }
+
+    fn fill<const MAKE_RESPONSE: bool>(
+        &mut self,
+        order: &mut Order,
+        timestamp: i64,
+        maker: bool,
+        exec_price_tick: i64,
+    ) -> Result<(), BacktestError> {
+        if order.status == Status::Expired
+            || order.status == Status::Canceled
+            || order.status == Status::Filled
+        {
+            return Err(BacktestError::InvalidOrderStatus);
+        }
+
+        order.maker = maker;
+        if maker {
+            order.exec_price_tick = order.price_tick;
+        } else {
+            order.exec_price_tick = exec_price_tick;
+        }
+
+        order.exec_qty = order.leaves_qty;
+        order.leaves_qty = 0.0;
+        order.status = Status::Filled;
+        order.exch_timestamp = timestamp;
+
+        self.state.apply_fill(order);
+
+        if MAKE_RESPONSE {
+            self.order_e2l.respond(order.clone());
+        }
         Ok(())
     }
 
@@ -415,26 +445,63 @@ where
         } else if event.is(EXCH_FILL_EVENT) {
             if event.is(BUY_EVENT) || event.is(SELL_EVENT) {
                 // println!("[EXCHANGE] Processing FILL event for market feed order");
+                let order_id = event.order_id;
+
+                // 修改 depth 因为原来 FILL 完会有 CANCEL 进行 depth 的维护
+                let order1 = self
+                    .depth
+                    .orders()
+                    .get(&event.order_id)
+                    .ok_or(BacktestError::OrderNotFound)?;
+                let remaining_qty = order1.qty - event.qty;
+                self.depth.modify_order(
+                    order_id,
+                    order1.price_tick as f64 * self.depth.tick_size(),
+                    remaining_qty,
+                    event.exch_ts,
+                )?;
+
+                let ival_u64 = event.ival as u64;
+                let order2 = self
+                    .depth
+                    .orders()
+                    .get(&ival_u64)
+                    .ok_or(BacktestError::OrderNotFound)?;
+                let remaining_qty_2 = order2.qty - event.qty;
+                self.depth.modify_order(
+                    order2.order_id,
+                    order2.price_tick as f64 * self.depth.tick_size(),
+                    remaining_qty_2,
+                    event.exch_ts,
+                )?;
+
+                // TODO DELETE 参数是用来控制 event 本身是否要被删除（nopartialfill中是删除，partialfill中应为部分成交）
                 let filled = self.queue_model.fill_market_feed_order::<false>(
-                    event.order_id,
+                    order_id,
                     event,
                     &self.depth,
                 )?;
                 let timestamp = event.exch_ts;
-                let fill_qty = event.qty; // The quantity from the market feed fill event
                 for mut order in filled {
-                    // Partial fill based on the market feed fill quantity
-                    // This assumes FIFO - front orders get filled first
-                    let order_fill_qty = fill_qty.min(order.leaves_qty);
                     let price_tick = order.price_tick;
-                    self.partial_fill::<true>(
-                        &mut order,
-                        timestamp,
-                        true,
-                        price_tick,
-                        order_fill_qty,
-                    )?;
+                    self.fill::<true>(&mut order, timestamp, true, price_tick)?;
                 }
+
+                // TODO partial fill 需要修改 queue.rs Line 1010 的逻辑
+                // let fill_qty = event.qty; // The quantity from the market feed fill event
+                // for mut order in filled {
+                //     // Partial fill based on the market feed fill quantity
+                //     // This assumes FIFO - front orders get filled first
+                //     let order_fill_qty = fill_qty.min(order.leaves_qty);
+                //     let price_tick = order.price_tick;
+                //     self.partial_fill::<true>(
+                //         &mut order,
+                //         timestamp,
+                //         true,
+                //         price_tick,
+                //         order_fill_qty,
+                //     )?;
+                // }
             } else if event.is(AUCTION_UPDATE_EVENT) && !self.auction_processed {
                 self.auction_processed = true;
 
@@ -769,7 +836,7 @@ where
     fn process_recv_order(
         &mut self,
         timestamp: i64,
-        wait_resp_order_id: Option<OrderId>,
+        _wait_resp_order_id: Option<OrderId>,
     ) -> Result<bool, BacktestError> {
         while let Some(mut order) = self.order_e2l.receive(timestamp) {
             // Processes a new order.

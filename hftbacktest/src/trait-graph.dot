@@ -1,0 +1,147 @@
+digraph {
+
+    graph [
+        label="hftbacktest",
+        labelloc=t,
+
+        pad=0.4,
+
+        // Consider rendering the graph using a different layout algorithm, such as:
+        // [dot, neato, twopi, circo, fdp, sfdp]
+        layout=neato,
+        overlap=false,
+        splines="line",
+        rankdir=LR,
+
+        fontname="Helvetica", 
+        fontsize="36",
+    ];
+
+    node [
+        fontname="monospace",
+        fontsize="10",
+        shape="record",
+        style="filled",
+    ];
+
+    edge [
+        fontname="monospace",
+        fontsize="10",
+    ];
+
+    "hftbacktest" [label="crate|hftbacktest", fillcolor="#5397c8"]; // "crate" node
+    "hftbacktest::backtest" [label="pub mod|backtest", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::assettype" [label="pub mod|backtest::assettype", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::assettype::AssetType" [label="pub trait|backtest::assettype::AssetType", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::data" [label="pub mod|backtest::data", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::data::POD" [label="pub unsafe trait|backtest::data::POD", fillcolor="#81c169"]; // "unsafe trait" node
+    "hftbacktest::backtest::data::npy" [label="pub(self) mod|backtest::data::npy", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::data::npy::NpyDTyped" [label="pub trait|backtest::data::npy::NpyDTyped", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::data::npy::parser" [label="pub(self) mod|backtest::data::npy::parser", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::data::reader" [label="pub(self) mod|backtest::data::reader", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::data::reader::DataPreprocess" [label="pub trait|backtest::data::reader::DataPreprocess", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::evs" [label="pub(self) mod|backtest::evs", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models" [label="pub mod|backtest::models", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::models::fee" [label="pub(self) mod|backtest::models::fee", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models::fee::FeeModel" [label="pub trait|backtest::models::fee::FeeModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::latency" [label="pub(self) mod|backtest::models::latency", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models::latency::LatencyModel" [label="pub trait|backtest::models::latency::LatencyModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::queue" [label="pub(self) mod|backtest::models::queue", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::models::queue::L3Order" [label="pub(self) trait|backtest::models::queue::L3Order", fillcolor="#db5367"]; // "trait" node
+    "hftbacktest::backtest::models::queue::L3QueueModel" [label="pub trait|backtest::models::queue::L3QueueModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::queue::Probability" [label="pub trait|backtest::models::queue::Probability", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::models::queue::QueueModel" [label="pub trait|backtest::models::queue::QueueModel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::order" [label="pub mod|backtest::order", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::proc" [label="pub mod|backtest::proc", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::proc::LocalProcessor" [label="pub trait|backtest::proc::LocalProcessor", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::proc::Processor" [label="pub trait|backtest::proc::Processor", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::backtest::proc::l3_local" [label="pub(self) mod|backtest::proc::l3_local", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::l3_nopartialfillexchange" [label="pub(self) mod|backtest::proc::l3_nopartialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::l3_partialfillexchange" [label="pub(self) mod|backtest::proc::l3_partialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::local" [label="pub(self) mod|backtest::proc::local", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::nopartialfillexchange" [label="pub(self) mod|backtest::proc::nopartialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::proc::partialfillexchange" [label="pub(self) mod|backtest::proc::partialfillexchange", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::backtest::recorder" [label="pub mod|backtest::recorder", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::backtest::state" [label="pub mod|backtest::state", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::depth" [label="pub mod|depth", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::depth::ApplySnapshot" [label="pub trait|depth::ApplySnapshot", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L1MarketDepth" [label="pub trait|depth::L1MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L2MarketDepth" [label="pub trait|depth::L2MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::L3MarketDepth" [label="pub trait|depth::L3MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::MarketDepth" [label="pub trait|depth::MarketDepth", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::depth::btreemarketdepth" [label="pub(self) mod|depth::btreemarketdepth", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::depth::hashmapmarketdepth" [label="pub(self) mod|depth::hashmapmarketdepth", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::depth::roivectormarketdepth" [label="pub(self) mod|depth::roivectormarketdepth", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::live" [label="pub mod|live", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::live::bot" [label="pub(self) mod|live::bot", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::live::ipc" [label="pub mod|live::ipc", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::live::ipc::Channel" [label="pub trait|live::ipc::Channel", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::live::ipc::config" [label="pub(self) mod|live::ipc::config", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::live::ipc::iceoryx" [label="pub mod|live::ipc::iceoryx", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::live::recorder" [label="pub(self) mod|live::recorder", fillcolor="#db5367"]; // "mod" node
+    "hftbacktest::prelude" [label="pub mod|prelude", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::types" [label="pub mod|types", fillcolor="#81c169"]; // "mod" node
+    "hftbacktest::types::AnyClone" [label="pub trait|types::AnyClone", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::types::Bot" [label="pub trait|types::Bot", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::types::Recorder" [label="pub trait|types::Recorder", fillcolor="#81c169"]; // "trait" node
+    "hftbacktest::utils" [label="pub(crate) mod|utils", fillcolor="#f8c04c"]; // "mod" node
+    "hftbacktest::utils::aligned" [label="pub(self) mod|utils::aligned", fillcolor="#db5367"]; // "mod" node
+
+    "hftbacktest" -> "hftbacktest::backtest" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::depth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::live" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::prelude" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::types" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest" -> "hftbacktest::utils" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::assettype" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::data" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::evs" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::models" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::order" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::proc" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::recorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest" -> "hftbacktest::backtest::state" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::assettype" -> "hftbacktest::backtest::assettype::AssetType" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::POD" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::npy" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data" -> "hftbacktest::backtest::data::reader" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::NpyDTyped" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::npy" -> "hftbacktest::backtest::data::npy::parser" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::data::reader" -> "hftbacktest::backtest::data::reader::DataPreprocess" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::fee" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::latency" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models" -> "hftbacktest::backtest::models::queue" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::fee" -> "hftbacktest::backtest::models::fee::FeeModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::latency" -> "hftbacktest::backtest::models::latency::LatencyModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::L3Order" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::L3QueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::Probability" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::models::queue" -> "hftbacktest::backtest::models::queue::QueueModel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::LocalProcessor" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::Processor" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_local" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_nopartialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::l3_partialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::local" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::nopartialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::backtest::proc" -> "hftbacktest::backtest::proc::partialfillexchange" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::ApplySnapshot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L1MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L2MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::L3MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::MarketDepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::btreemarketdepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::hashmapmarketdepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::depth" -> "hftbacktest::depth::roivectormarketdepth" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::bot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::ipc" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live" -> "hftbacktest::live::recorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::ipc::Channel" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::ipc::config" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::live::ipc" -> "hftbacktest::live::ipc::iceoryx" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::AnyClone" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Bot" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::types" -> "hftbacktest::types::Recorder" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+    "hftbacktest::utils" -> "hftbacktest::utils::aligned" [label="owns", color="#000000", style="solid"] [constraint=true]; // "owns" edge
+
+}
