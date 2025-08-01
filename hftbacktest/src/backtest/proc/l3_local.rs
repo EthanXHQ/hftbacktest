@@ -1,6 +1,5 @@
 use std::collections::{HashMap, hash_map::Entry};
 
-use uuid::timestamp;
 
 use crate::{
     backtest::{
@@ -13,7 +12,7 @@ use crate::{
     },
     depth::{L3MarketDepth, L3Order},
     types::{
-        AUCTION_UPDATE_EVENT, DEPTH_CLEAR_EVENT, Event, LOCAL_ASK_ADD_ORDER_EVENT,
+        AUCTION_UPDATE_EVENT, Event, LOCAL_ASK_ADD_ORDER_EVENT,
         LOCAL_ASK_DEPTH_CLEAR_EVENT, LOCAL_BID_ADD_ORDER_EVENT, LOCAL_BID_DEPTH_CLEAR_EVENT,
         LOCAL_CANCEL_ORDER_EVENT, LOCAL_DEPTH_CLEAR_EVENT, LOCAL_EVENT, LOCAL_FILL_EVENT,
         LOCAL_MODIFY_ORDER_EVENT, LOCAL_TRADE_EVENT, OrdType, Order, OrderId, Side, StateValues,
@@ -129,6 +128,7 @@ where
         let price_tick = (price / self.depth.tick_size()).round() as i64;
         order.price_tick = price_tick;
         order.qty = qty;
+        order.leaves_qty = qty;
 
         order.req = Status::Replaced;
         order.local_timestamp = current_timestamp;
@@ -408,8 +408,10 @@ where
                     self.depth.delete_order(order_id, timestamp)?;
                 }
 
+                // println!("local orders {:?}", self.orders); 
                 // println!("best ask {:?}", self.depth.best_ask());
-                // println!("best bid {:?}", self.depth.best_bid());                
+                // println!("best bid {:?}", self.depth.best_bid());   
+                continue;             
             }
             // Updates the order latency only if it has a valid exchange timestamp. When the
             // order is rejected before it reaches the matching engine, it has no exchange

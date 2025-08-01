@@ -159,11 +159,10 @@ where
         let filled = self
             .queue_model
             .on_best_bid_update(prev_best_tick, new_best_tick)?;
+        // TODO no partial fill for backtest orders now
         for mut order in filled {
             let price_tick = order.price_tick;
-            // For crossing orders, we assume full fill at the order's limit price
-            let fill_qty = order.leaves_qty;
-            self.partial_fill::<true>(&mut order, timestamp, true, price_tick, fill_qty)?;
+            self.fill::<true>(&mut order, timestamp, true, price_tick)?;
         }
         Ok(())
     }
@@ -177,154 +176,123 @@ where
         let filled = self
             .queue_model
             .on_best_ask_update(prev_best_tick, new_best_tick)?;
+        // TODO no partial fill for backtest orders now
         for mut order in filled {
             let price_tick = order.price_tick;
-            // For crossing orders, we assume full fill at the order's limit price
-            let fill_qty = order.leaves_qty;
-            self.partial_fill::<true>(&mut order, timestamp, true, price_tick, fill_qty)?;
+            self.fill::<true>(&mut order, timestamp, true, price_tick)?;
         }
         Ok(())
     }
 
-    fn try_fill_at_touch(
-        &mut self,
-        order: &mut Order,
-        timestamp: i64,
-    ) -> Result<bool, BacktestError> {
-        if order.side == Side::Buy {
-            let best_ask_tick = self.depth.best_ask_tick();
-            if order.price_tick >= best_ask_tick {
-                // Get available quantity at best ask
-                let available_qty = self.depth.ask_qty_at_tick(best_ask_tick);
-                if available_qty > 0.0 {
-                    let fill_qty = available_qty.min(order.leaves_qty);
-                    self.partial_fill::<false>(order, timestamp, false, best_ask_tick, fill_qty)?;
-                    return Ok(true);
-                }
-            }
-        } else {
-            let best_bid_tick = self.depth.best_bid_tick();
-            if order.price_tick <= best_bid_tick {
-                // Get available quantity at best bid
-                let available_qty = self.depth.bid_qty_at_tick(best_bid_tick);
-                if available_qty > 0.0 {
-                    let fill_qty = available_qty.min(order.leaves_qty);
-                    self.partial_fill::<false>(order, timestamp, false, best_bid_tick, fill_qty)?;
-                    return Ok(true);
-                }
-            }
-        }
-        Ok(false)
-    }
-
-    // TODO unchecked
+    // TODO no partial fill for backtest orders
     fn ack_new(&mut self, order: &mut Order, timestamp: i64) -> Result<(), BacktestError> {
         if self.queue_model.contains_backtest_order(order.order_id) {
             return Err(BacktestError::OrderIdExist);
         }
 
-        // Normal trading mode - with immediate matching
-        match order.order_type {
-            OrdType::Limit => {
-                match order.time_in_force {
-                    TimeInForce::GTC | TimeInForce::GTX => {
-                        // Try immediate execution first
-                        let filled = self.try_fill_at_touch(order, timestamp)?;
-
-                        if order.leaves_qty > 0.0 {
-                            // If not fully filled, add to book
-                            if order.time_in_force == TimeInForce::GTX && filled {
-                                // GTX order touched the market, expire remaining
+        if order.side == Side::Buy {
+            match order.order_type {
+                OrdType::Limit => {
+                    // Checks if the buy order price is greater than or equal to the current best ask.
+                    if order.price_tick >= self.depth.best_ask_tick() {
+                        match order.time_in_force {
+                            TimeInForce::GTX => {
                                 order.status = Status::Expired;
                                 order.exch_timestamp = timestamp;
-                            } else {
-                                // Add remaining quantity to book
-                                order.status = if filled {
-                                    Status::PartiallyFilled
-                                } else {
-                                    Status::New
-                                };
+                                Ok(())
+                            }
+                            TimeInForce::GTC | TimeInForce::FOK | TimeInForce::IOC => {
+                                // Since this always fills the full quantity, both FOK and IOC
+                                // orders are also fully filled at the best price.
+                                // Takes the market.
+                                self.fill::<false>(
+                                    order,
+                                    timestamp,
+                                    false,
+                                    self.depth.best_ask_tick(),
+                                )
+                            }
+                            TimeInForce::Unsupported => Err(BacktestError::InvalidOrderRequest),
+                        }
+                    } else {
+                        match order.time_in_force {
+                            TimeInForce::GTC | TimeInForce::GTX => {
+                                // Initializes the order's queue position.
+                                order.status = Status::New;
                                 order.exch_timestamp = timestamp;
+
                                 self.queue_model
                                     .add_backtest_order(order.clone(), &self.depth)?;
+                                Ok(())
                             }
+                            TimeInForce::FOK | TimeInForce::IOC => {
+                                order.status = Status::Expired;
+                                order.exch_timestamp = timestamp;
+                                Ok(())
+                            }
+                            TimeInForce::Unsupported => Err(BacktestError::InvalidOrderRequest),
                         }
-                        Ok(())
                     }
-                    TimeInForce::IOC => {
-                        // Execute what we can and cancel the rest
-                        self.try_fill_at_touch(order, timestamp)?;
-                        if order.leaves_qty > 0.0 {
-                            order.status = Status::Expired;
-                            order.exch_timestamp = timestamp;
-                        }
-                        Ok(())
-                    }
-                    TimeInForce::FOK => {
-                        // Check if full quantity can be filled
-                        let can_fill_full = if order.side == Side::Buy {
-                            let best_ask_tick = self.depth.best_ask_tick();
-                            order.price_tick >= best_ask_tick
-                                && self.depth.ask_qty_at_tick(best_ask_tick) >= order.leaves_qty
-                        } else {
-                            let best_bid_tick = self.depth.best_bid_tick();
-                            order.price_tick <= best_bid_tick
-                                && self.depth.bid_qty_at_tick(best_bid_tick) >= order.leaves_qty
-                        };
-
-                        if can_fill_full {
-                            self.try_fill_at_touch(order, timestamp)?;
-                        } else {
-                            order.status = Status::Expired;
-                            order.exch_timestamp = timestamp;
-                        }
-                        Ok(())
-                    }
-                    TimeInForce::Unsupported => Err(BacktestError::InvalidOrderRequest),
                 }
+                OrdType::Market => {
+                    // Takes the market.
+                    self.fill::<false>(order, timestamp, false, self.depth.best_ask_tick())
+                }
+                OrdType::Unsupported => Err(BacktestError::InvalidOrderRequest),
             }
-            OrdType::Market => {
-                // Market orders try to fill against available liquidity
-                if order.side == Side::Buy {
-                    let mut remaining_qty = order.leaves_qty;
-                    let mut tick = self.depth.best_ask_tick();
-
-                    while remaining_qty > 0.0 && tick < self.depth.best_ask_tick() {
-                        let available_qty = self.depth.ask_qty_at_tick(tick);
-                        if available_qty > 0.0 {
-                            let fill_qty = available_qty.min(remaining_qty);
-                            self.partial_fill::<false>(order, timestamp, false, tick, fill_qty)?;
-                            remaining_qty = order.leaves_qty;
+        } else {
+            match order.order_type {
+                OrdType::Limit => {
+                    // Checks if the sell order price is less than or equal to the current best bid.
+                    if order.price_tick <= self.depth.best_bid_tick() {
+                        match order.time_in_force {
+                            TimeInForce::GTX => {
+                                order.status = Status::Expired;
+                                order.exch_timestamp = timestamp;
+                                Ok(())
+                            }
+                            TimeInForce::GTC | TimeInForce::FOK | TimeInForce::IOC => {
+                                // Since this always fills the full quantity, both FOK and IOC
+                                // orders are also fully filled at the best price.
+                                // Takes the market.
+                                self.fill::<false>(
+                                    order,
+                                    timestamp,
+                                    false,
+                                    self.depth.best_bid_tick(),
+                                )
+                            }
+                            TimeInForce::Unsupported => Err(BacktestError::InvalidOrderRequest),
                         }
-                        tick += 1;
-                    }
-                } else {
-                    let mut remaining_qty = order.leaves_qty;
-                    let mut tick = self.depth.best_bid_tick();
+                    } else {
+                        match order.time_in_force {
+                            TimeInForce::GTC | TimeInForce::GTX => {
+                                // Initializes the order's queue position.
+                                order.status = Status::New;
+                                order.exch_timestamp = timestamp;
 
-                    while remaining_qty > 0.0 && tick > self.depth.best_bid_tick() {
-                        let available_qty = self.depth.bid_qty_at_tick(tick);
-                        if available_qty > 0.0 {
-                            let fill_qty = available_qty.min(remaining_qty);
-                            self.partial_fill::<false>(order, timestamp, false, tick, fill_qty)?;
-                            remaining_qty = order.leaves_qty;
+                                self.queue_model
+                                    .add_backtest_order(order.clone(), &self.depth)?;
+                                Ok(())
+                            }
+                            TimeInForce::FOK | TimeInForce::IOC => {
+                                order.status = Status::Expired;
+                                order.exch_timestamp = timestamp;
+                                Ok(())
+                            }
+                            TimeInForce::Unsupported => Err(BacktestError::InvalidOrderRequest),
                         }
-                        tick -= 1;
                     }
                 }
-
-                // If market order couldn't be fully filled, expire remaining
-                if order.leaves_qty > 0.0 {
-                    order.status = Status::Expired;
-                    order.exch_timestamp = timestamp;
+                OrdType::Market => {
+                    // Takes the market.
+                    self.fill::<false>(order, timestamp, false, self.depth.best_bid_tick())
                 }
-                Ok(())
+                OrdType::Unsupported => Err(BacktestError::InvalidOrderRequest),
             }
-            OrdType::Unsupported => Err(BacktestError::InvalidOrderRequest),
         }
     }
 
-    // TODO unchecked
     fn ack_cancel(&mut self, order: &mut Order, timestamp: i64) -> Result<(), BacktestError> {
         match self
             .queue_model
@@ -346,7 +314,6 @@ where
         }
     }
 
-    // TODO unchecked
     fn ack_modify<const RESET_QUEUE_POS: bool>(
         &mut self,
         order: &mut Order,
@@ -832,7 +799,6 @@ where
         Ok(())
     }
 
-    // TODO unchecked
     fn process_recv_order(
         &mut self,
         timestamp: i64,
